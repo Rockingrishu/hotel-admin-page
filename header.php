@@ -16,7 +16,7 @@
                 <<ul class="navbar-nav nav-pills flex-column">
                     <li class="nav-item ">
                     <em class="icon ni ni-dashboard-fill"></em>
-                    <a class="nav-link text-white" href="dashboard.php">Dashboard</a>
+                    <a class="nav-link text-white" href="veiwBooking.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="rooms.php">Rooms</a>
