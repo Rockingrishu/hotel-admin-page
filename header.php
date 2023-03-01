@@ -16,13 +16,13 @@
                 <<ul class="navbar-nav nav-pills flex-column">
                     <li class="nav-item ">
                     <em class="icon ni ni-dashboard-fill"></em>
-                    <a class="nav-link text-white" href="#">Dashboard</a>
+                    <a class="nav-link text-white" href="dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="rooms.php">Rooms</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Users</a>
+                        <a class="nav-link text-white" href="booking.php">Make a booking</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="setting.php">Settings</a>
