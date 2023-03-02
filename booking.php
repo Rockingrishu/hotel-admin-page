@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 
-<head> <!-- Required meta tags -->
+<head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Admin Page</title>
@@ -15,16 +15,6 @@
 
 
     <?php include 'header.php'; ?>
-
-    <?php
-
-    // $roomType = $_POST['roomType'];
-    // $price_query = "SELECT price FROM roomdata WHERE roomType='$roomType'";
-    // $result = mysqli_query($conn, $price_query);
-    // $row = mysqli_fetch_assoc($result);
-    // $price = $row['price']; 
-
-    ?>
 
     <div class="container-fluid" id="main-content">
         <div class="row justify-content-center">
@@ -130,6 +120,25 @@ if (isset($_POST['register'])) {
 ?>
 
 <script>
+    
+    const roomTypeSelect = document.getElementById("roomType");
+    const priceInput = document.getElementById("price");
+
+    roomTypeSelect.addEventListener("change", function() {
+        
+        const selectedRoomType = roomTypeSelect.value;
+
+        if (selectedRoomType === "A") {
+            priceInput.value = "100";
+        } else if (selectedRoomType === "B") {
+            priceInput.value = "80";
+        } else if (selectedRoomType === "C") {
+            priceInput.value = "50";
+        } else {
+            priceInput.value = "";
+        }
+    });
+
     document.getElementById("bookingForm").addEventListener("submit", function(event) {
         var name = document.getElementById("name").value.trim();
         var email = document.getElementById("email").value.trim();

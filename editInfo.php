@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 
-<head> <!-- Required meta tags -->
+<head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Admin Page</title>

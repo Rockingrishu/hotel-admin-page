@@ -4,7 +4,7 @@
 <head> <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>Hello, world!</title>
+    <title>Admin Page</title>
     <?php include 'links.php'; ?>
 </head>
 

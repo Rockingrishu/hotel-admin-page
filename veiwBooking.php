@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 
-<head> <!-- Required meta tags -->
+<head> 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>Hello, world!</title>
+    <title>Admin Page</title>
     <?php include 'links.php'; ?>
     <?php include 'db_config.php'; ?>
     <script src="room_validation.js"></script>
@@ -23,7 +23,7 @@
                         <div class="col-md-4">
                             <div class="card text-center">
                                 <div class="card-body">
-                                    <h5 class="card-title">Total Rooms</h5>
+                                    <h5 class="card-title">Total Rooms Available</h5>
                                     <p class="card-text">
                                         <?php
                                         $query = 'SELECT SUM(quantity) AS total_quantity FROM roomdata';
