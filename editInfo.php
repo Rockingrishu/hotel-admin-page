@@ -13,33 +13,31 @@
 
 <body class="bg-light">
 
+    <?php include 'header.php';
+    $id = $_GET['id'];
+    $query = "SELECT * FROM bookinginfo WHERE id = {$id}";
+    $data = mysqli_query($conn, $query);
 
-    <?php include 'header.php'; ?>
-    <?php
+    $total = mysqli_num_rows($data);
+    $result = mysqli_fetch_assoc($data);
 
-    $roomType = $_POST['roomType'];
-    $price_query = "SELECT price FROM roomdata WHERE roomType='$roomType'";
-    $result = mysqli_query($conn, $price_query);
-    $row = mysqli_fetch_assoc($result);
-    $price = $row['price'];
-    
     ?>
 
     <div class="container-fluid" id="main-content">
         <div class="row justify-content-center">
             <div class="col-lg-8 p-4 overflow-hidden">
-                <h2 class="mb-4 text-center display-4 fw-bold">Book a Room</h2>
+                <h2 class="mb-4 text-center display-4 fw-bold">Modify Data</h2>
                 <form id="bookingForm" action="#" method="POST">
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="name" class="col-sm-3 col-form-label text-end">Name:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name" required value="<?php echo $result['name']; ?>">
                         </div>
                     </div>
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="email" class="col-sm-3 col-form-label text-end">Email address:</label>
                         <div class="col-sm-6">
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required value="<?php echo $result['email']; ?>">
                         </div>
                     </div>
 
@@ -48,9 +46,21 @@
                         <div class="col-sm-6">
                             <select class="form-control" id="roomType" name="roomType" required>
                                 <option value="">--Select a room type--</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
+                                <option value="A" <?php
+                                                    if ($result['roomType'] == 'A') {
+                                                        echo "selected";
+                                                    }
+                                                    ?>>A</option>
+                                <option value="B" <?php
+                                                    if ($result['roomType'] == 'B') {
+                                                        echo "selected";
+                                                    }
+                                                    ?>>B</option>
+                                <option value="C" <?php
+                                                    if ($result['roomType'] == 'C') {
+                                                        echo "selected";
+                                                    }
+                                                    ?>>C</option>
                             </select>
                         </div>
                     </div>
@@ -58,32 +68,30 @@
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="roomNumber" class="col-sm-3 col-form-label text-end">Room number:</label>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" id="roomNumber" name="roomNumber" required min="1">
+                            <input type="number" class="form-control" id="roomNumber" name="roomNumber" required min="1" value="<?php echo $result['roomNumber']; ?>">
                         </div>
                     </div>
 
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="price" class="col-sm-3 col-form-label text-end">Price:</label>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" id="price" name="price" required min="1" value="<?php echo $price ?>">
+                            <input type="number" class="form-control" id="price" name="price" required min="1" value="<?php echo $result['price']; ?>">
                         </div>
                     </div>
-
-
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="startTime" class="col-sm-3 col-form-label text-end">Start time:</label>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" id="startTime" name="startTime" required>
+                            <input type="date" class="form-control" id="startTime" name="startTime" required value="<?php echo $result['startTime']; ?>">
                         </div>
                     </div>
                     <div class="form-group row mb-4 justify-content-center">
                         <label for="endTime" class="col-sm-3 col-form-label text-end">End time:</label>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" id="endTime" name="endTime" required>
+                            <input type="date" class="form-control" id="endTime" name="endTime" required value="<?php echo $result['endTime']; ?>">
                         </div>
                     </div>
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary" name="register">Book Room</button>
+                        <button type="submit" class="btn btn-primary" name="register">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -110,12 +118,15 @@ if (isset($_POST['register'])) {
     $startTime = $_POST['startTime'];
     $endTime = $_POST['endTime'];
 
-    $query = "INSERT INTO bookinginfo VALUES ('','$name','$email','$roomType','$roomNumber','$price','$startTime','$endTime')";
+    $query = "UPDATE bookinginfo SET name='$name', email='$email', roomType='$roomType', roomNumber='$roomNumber', price='$price', startTime='$startTime', endTime='$endTime' WHERE id=$id";
+
+
+    // $query = "UPDATE `bookinginfo` SET `id`='[value-1]',`name`='[value-2]',`email`='[value-3]',`roomType`='[value-4]',`roomNumber`='[value-5]',`price`='[value-6]',`startTime`='[value-7]',`endTime`='[value-8]' WHERE 1"
 
     $data = mysqli_query($conn, $query);
 
     if ($data) {
-        echo "<script>alert('data inserted');</script>";
+        echo "<script>alert('Record Updated.');</script>";
     } else {
         echo "Error inserting data: " . mysqli_error($conn);
     }
@@ -123,44 +134,3 @@ if (isset($_POST['register'])) {
 
 
 ?>
-
-<script>
-    document.getElementById("bookingForm").addEventListener("submit", function(event) {
-        var name = document.getElementById("name").value.trim();
-        var email = document.getElementById("email").value.trim();
-        var roomNumber = document.getElementById("roomNumber").value.trim();
-        var startTime = document.getElementById("startTime").value.trim();
-        var endTime = document.getElementById("endTime").value.trim();
-
-        var nameInput = document.getElementById("name");
-        if (!/^[a-zA-Z\s]*$/g.test(name)) {
-            event.preventDefault();
-            alert("Please enter letters and spaces only in the name field.");
-            nameInput.value = "";
-            return false;
-        }
-
-        if (name === "" || email === "" || roomNumber === "" || startTime === "" || endTime === "") {
-            event.preventDefault();
-            alert("Please fill all required fields.");
-            return false;
-        }
-
-        var startDateTime = new Date(startTime).getTime();
-        var endDateTime = new Date(endTime).getTime();
-
-        if (startDateTime >= endDateTime) {
-            event.preventDefault();
-            alert("End time must be later than start time.");
-            return false;
-        }
-
-        if (isNaN(roomNumber) || !Number.isInteger(+roomNumber)) {
-            event.preventDefault();
-            alert("Room number must be a valid integer.");
-            return false;
-        }
-
-        return true;
-    });
-</script>

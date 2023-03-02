@@ -25,7 +25,7 @@
                         <a class="nav-link text-white" href="booking.php">Make a booking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="setting.php">Settings</a>
+                        <a class="nav-link text-white" href="filter.php">Filter</a>
                     </li>
                     </ul>
             </div>

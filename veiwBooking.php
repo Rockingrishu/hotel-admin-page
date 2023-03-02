@@ -6,8 +6,8 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Hello, world!</title>
     <?php include 'links.php'; ?>
-    <script src="room_validation.js"></script>
     <?php include 'db_config.php'; ?>
+    <script src="room_validation.js"></script>
 </head>
 
 <body class="bg-light">
@@ -17,7 +17,65 @@
 
     <div class="container-fluid" id="main-content">
         <div class="row">
-            <div class="col-lg-10 ms-auto p-4 overflow-hidden ">
+            <div class="col-lg-10 ms-auto p-4 overflow-hidden">
+                <div class="container my-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Rooms</h5>
+                                    <p class="card-text">
+                                        <?php
+                                        $query = 'SELECT SUM(quantity) AS total_quantity FROM roomdata';
+                                        $result = mysqli_query($conn, $query);
+                                        $row = mysqli_fetch_assoc($result);
+
+                                        $query = 'SELECT SUM(roomsBooked) AS total_booked FROM roomdata';
+                                        $result = mysqli_query($conn, $query);
+                                        $row2 = mysqli_fetch_assoc($result);
+
+                                        $available_rooms = $row['total_quantity'] - $row2['total_booked'];
+                                        echo $available_rooms;
+                                        ?>
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Income</h5>
+                                    <p class="card-text">
+                                        <?php
+                                        $query = 'SELECT SUM(price) AS total_income FROM bookinginfo';
+                                        $result = mysqli_query($conn, $query);
+                                        $row = mysqli_fetch_assoc($result);
+                                        echo $row['total_income'];
+
+                                        ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Customers</h5>
+                                    <p class="card-text">
+                                        <?php
+                                        $query = 'SELECT COUNT(*) as total_customers FROM bookinginfo';
+                                        $result = mysqli_query($conn, $query);
+                                        $row = mysqli_fetch_assoc($result);
+                                        echo $row['total_customers'];
+
+                                        ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead class="table-dark">
@@ -39,10 +97,9 @@
                             $data = mysqli_query($conn, $query);
 
                             if (mysqli_num_rows($data) > 0) {
-                                $counter = 1; // initialize the counter variable
                                 while ($row = mysqli_fetch_assoc($data)) {
-                                    echo "<tr id='row-$counter'>
-                                            <td>" . $counter . "</td>
+                                    echo "<tr >
+                                            <td>" . $row['id'] . "</td>
                                             <td>" . $row['name'] . "</td>
                                             <td>" . $row['email'] . "</td>
                                             <td>" . $row['roomType'] . "</td>
@@ -50,9 +107,8 @@
                                             <td>" . $row['price'] . "</td>
                                             <td>" . $row['startTime'] . "</td>
                                             <td>" . $row['endTime'] . "</td>
-                                            <td><button class=\"btn btn-primary\" onclick=\"editRow($counter)\">Edit</button></td>
+                                            <td><a href=\"editInfo.php?id=" . $row['id'] . "\">Edit</a></td>
                                           </tr>";
-                                    $counter++; // increment the counter variable
                                 }
                             } else {
                                 echo "<tr><td colspan='6'>No data found</td></tr>";
@@ -65,51 +121,6 @@
         </div>
     </div>
 
-    <!-- Add this code to the end of the HTML body -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Booking Info</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="edit.php" method="POST">
-                        <input type="hidden" name="id" id="edit-id">
-                        <div class="mb-3">
-                            <label for="edit-name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="edit-name" name="name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="edit-email" name="email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-roomType" class="form-label">Room Type</label>
-                            <input type="text" class="form-control" id="edit-roomType" name="roomType">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-roomNumber" class="form-label">Room Number</label>
-                            <input type="text" class="form-control" id="edit-roomNumber" name="roomNumber">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-price" class="form-label">Price</label>
-                            <input type="text" class="form-control" id="edit-price" name="price">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-startTime" class="form-label">Check-in Date</label>
-                            <input type="datetime-local" class="form-control" id="edit-startTime" name="startTime">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-endTime" class="form-label">Check-out Date</label>
-                            <input type="datetime-local" class="form-control" id="edit-endTime" name="endTime">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <style>
         table {

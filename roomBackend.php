@@ -3,13 +3,24 @@
 // Create database connection
     require('db_config.php');
 
-    if(isset($_POST['add_room'])){
-        $frm_data = filteration($_POST);
+    if (isset($_POST['register'])) {
 
-        print_r($frm_data);
-        $q1 = "INSERT INTO `rooms`(`roomType`, `price`, `quantity`, `action`, `status`) VALUES ('?,?,?,?,?')";
-        $values = [$frm_data['room_type'],$frm_data['price'],$frm_data['quantity'],$frm_data['action'],$frm_data['status']];
-
+        $roomType = $_POST['roomType'];
+        $price = $_POST['price'];
+        $quantity = $_POST['quantity'];
+        $action = $_POST['action'];
+        $status = $_POST['status'];
+        
+    
+        $query = "INSERT INTO roomdata VALUES ('$roomType','$price','$quantity','$action','$status')";
+    
+        $data = mysqli_query($conn, $query);
+    
+        if ($data) {
+            echo "<script>alert('data inserted');</script>";
+        } else {
+            echo "Error inserting data: " . mysqli_error($conn);
+        }
     }
 
 ?>

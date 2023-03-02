@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Hello, world!</title>
     <?php include 'links.php'; ?>
+    <?php include 'db_config.php'; ?>
     <script src="room_validation.js"></script>
 
 </head>
@@ -38,11 +39,32 @@
                                     <th class="text-white">Room Type </th>
                                     <th class="text-white">Price </th>
                                     <th class="text-white">Quantity</th>
-                                    <th class="text-white"> Status</th>
-                                    <th class="text-white">Action </th>
+                                    <th class="text-white">Rooms Booked</th>
+                                    <th class="text-white">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="room-data">
+                                <?php
+                                $query = 'SELECT * FROM roomdata';
+                                $data = mysqli_query($conn, $query);
+
+                                if (mysqli_num_rows($data) > 0) {
+                                    $counter = 1; // initialize the counter variable
+                                    while ($row = mysqli_fetch_assoc($data)) {
+                                        echo "<tr id='row-$counter'>
+                                            <td>" . $counter . "</td>
+                                            <td>" . $row['roomType'] . "</td>
+                                            <td>" . $row['Price'] . "</td>
+                                            <td>" . $row['quantity'] . "</td>
+                                            <td>" . $row['roomsBooked'] . "</td>
+                                            <td>" . $row['status'] . "</td>
+                                          </tr>";
+                                        $counter++; // increment the counter variable
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='6'>No data found</td></tr>";
+                                }
+                                ?>
 
                             </tbody>
                         </table>
@@ -60,7 +82,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="add_room_form" autocomplete="off">
+                    <form id="add_room_form" autocomplete="off" action="#" method="POST">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="room-type" class="col-form-label">Room Type:</label>
@@ -75,8 +97,8 @@
                                 <input type="number" class="form-control" id="quantity" name="quantity" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="action" class="col-form-label">Action:</label>
-                                <input type="text" class="form-control" id="action" name="action" required pattern="[A-Za-z ]+">
+                                <label for="action" class="col-form-label">Rooms Booked:</label>
+                                <input type="text" class="form-control" id="action" name="action" required pattern="[0-9]+">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="status" class="col-form-label">Status:</label>
@@ -90,7 +112,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="add-room-btn">Save</button>
+                            <button type="submit" class="btn btn-primary" id="add-room-btn" name="register">Save</button>
                         </div>
                     </form>
                 </div>
@@ -98,44 +120,7 @@
         </div>
     </div>
 
-    <script>
-        let add_room_form = document.getElementById('add_room_form');
-
-        add_room_form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            add_rooms();
-        });
-
-        function add_rooms() {
-            let data = new FormData();
-
-            data.append('add_room', '');
-            data.append('roomType', add_room_form.elements['room-type'].value);
-            data.append('price', add_room_form.elements['price'].value);
-            data.append('quantity', add_room_form.elements['quantity'].value);
-            data.append('action', add_room_form.elements['action'].value);
-            data.append('status', add_room_form.elements['status'].value);
-
-            let xhr = new XMLHttpRequest();
-            xhr.open('POST', 'roomBackend.php', true);
-
-            xhr.onload = function() {
-               var myModal=document.getElementById('add-room');
-                var modal = bootstrap.Modal.getInstance(myModal);
-                modal.hide();
-
-                if(this.responseText ==1){
-                    alert("Room Added Successfully");
-                    add_room_form.reset();
-                }else{
-                    alert("Server Down");
-                }
-            }
-
-            xhr.send(data);
-
-        }
-    </script>
+    <?php include 'roomBackend.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
