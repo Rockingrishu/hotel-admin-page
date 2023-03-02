@@ -88,7 +88,7 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">Check-in Date</th>
                                 <th scope="col">Check-out Date</th>
-                                <th scope="col"></th>
+                                <th scope="col" colspan="2">Operations</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,6 +108,7 @@
                                             <td>" . $row['startTime'] . "</td>
                                             <td>" . $row['endTime'] . "</td>
                                             <td><a href=\"editInfo.php?id=" . $row['id'] . "\">Edit</a></td>
+                                            <td><a href=\"cancelBooking.php?id=" . $row['id'] . "\">Cancel Booking</a></td>
                                           </tr>";
                                 }
                             } else {

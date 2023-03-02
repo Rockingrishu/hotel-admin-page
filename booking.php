@@ -15,14 +15,15 @@
 
 
     <?php include 'header.php'; ?>
+
     <?php
 
-    $roomType = $_POST['roomType'];
-    $price_query = "SELECT price FROM roomdata WHERE roomType='$roomType'";
-    $result = mysqli_query($conn, $price_query);
-    $row = mysqli_fetch_assoc($result);
-    $price = $row['price'];
-    
+    // $roomType = $_POST['roomType'];
+    // $price_query = "SELECT price FROM roomdata WHERE roomType='$roomType'";
+    // $result = mysqli_query($conn, $price_query);
+    // $row = mysqli_fetch_assoc($result);
+    // $price = $row['price']; 
+
     ?>
 
     <div class="container-fluid" id="main-content">
@@ -65,7 +66,7 @@
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="price" class="col-sm-3 col-form-label text-end">Price:</label>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" id="price" name="price" required min="1" value="<?php echo $price ?>">
+                            <input type="number" class="form-control" id="price" name="price" required min="1">
                         </div>
                     </div>
 
@@ -73,15 +74,17 @@
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="startTime" class="col-sm-3 col-form-label text-end">Start time:</label>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" id="startTime" name="startTime" required>
+                            <input type="datetime-local" class="form-control" id="startTime" name="startTime" required>
                         </div>
                     </div>
+
                     <div class="form-group row mb-4 justify-content-center">
                         <label for="endTime" class="col-sm-3 col-form-label text-end">End time:</label>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" id="endTime" name="endTime" required>
+                            <input type="datetime-local" class="form-control" id="endTime" name="endTime" required>
                         </div>
                     </div>
+
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary" name="register">Book Room</button>
                     </div>
@@ -115,6 +118,8 @@ if (isset($_POST['register'])) {
     $data = mysqli_query($conn, $query);
 
     if ($data) {
+        $query2 = "ALTER TABLE `bookinginfo` AUTO_INCREMENT = 1";
+        $data2 = mysqli_query($conn, $query2);
         echo "<script>alert('data inserted');</script>";
     } else {
         echo "Error inserting data: " . mysqli_error($conn);

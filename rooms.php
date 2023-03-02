@@ -12,10 +12,7 @@
 </head>
 
 <body class="bg-light">
-
-
     <?php include 'header.php'; ?>
-
     <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden ">
@@ -35,12 +32,12 @@
                         <table class="table table-hover border">
                             <thead>
                                 <tr class="bg-dark">
-                                    <th class="text-white"> # </th>
+                                    <th class="text-white">Id </th>
                                     <th class="text-white">Room Type </th>
                                     <th class="text-white">Price </th>
                                     <th class="text-white">Quantity</th>
                                     <th class="text-white">Rooms Booked</th>
-                                    <th class="text-white">Status</th>
+                                    <th class="text-white">Operations</th>
                                 </tr>
                             </thead>
                             <tbody id="room-data">
@@ -49,17 +46,15 @@
                                 $data = mysqli_query($conn, $query);
 
                                 if (mysqli_num_rows($data) > 0) {
-                                    $counter = 1; // initialize the counter variable
                                     while ($row = mysqli_fetch_assoc($data)) {
-                                        echo "<tr id='row-$counter'>
-                                            <td>" . $counter . "</td>
+                                        echo "<tr'>
+                                            <td>" . $row['id'] . "</td>
                                             <td>" . $row['roomType'] . "</td>
                                             <td>" . $row['Price'] . "</td>
                                             <td>" . $row['quantity'] . "</td>
                                             <td>" . $row['roomsBooked'] . "</td>
-                                            <td>" . $row['status'] . "</td>
-                                          </tr>";
-                                        $counter++; // increment the counter variable
+                                            <td><a href=\"delete_data.php?id=" . $row['id'] . "\">delete</a></td>
+                                          </tr>";   
                                     }
                                 } else {
                                     echo "<tr><td colspan='6'>No data found</td></tr>";
@@ -98,15 +93,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="action" class="col-form-label">Rooms Booked:</label>
-                                <input type="text" class="form-control" id="action" name="action" required pattern="[0-9]+">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="status" class="col-form-label">Status:</label>
-                                <select class="form-select" aria-label="Default select example" id="status" name="status" required>
-                                    <option selected disabled>Choose...</option>
-                                    <option value="available">Available</option>
-                                    <option value="unavailable">Unavailable</option>
-                                </select>
+                                <input type="text" class="form-control" id="action" name="roomsBooked" required pattern="[0-9]+">
                             </div>
                         </div>
 

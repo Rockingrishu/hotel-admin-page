@@ -81,13 +81,13 @@
                     <div class="form-group row mb-3 justify-content-center">
                         <label for="startTime" class="col-sm-3 col-form-label text-end">Start time:</label>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" id="startTime" name="startTime" required value="<?php echo $result['startTime']; ?>">
+                            <input type="datetime-local" class="form-control" id="startTime" name="startTime" required value="<?php echo $result['startTime']; ?>">
                         </div>
                     </div>
                     <div class="form-group row mb-4 justify-content-center">
                         <label for="endTime" class="col-sm-3 col-form-label text-end">End time:</label>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" id="endTime" name="endTime" required value="<?php echo $result['endTime']; ?>">
+                            <input type="datetime-local" class="form-control" id="endTime" name="endTime" required value="<?php echo $result['endTime']; ?>">
                         </div>
                     </div>
                     <div class="form-group text-center">

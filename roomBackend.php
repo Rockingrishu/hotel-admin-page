@@ -8,11 +8,10 @@
         $roomType = $_POST['roomType'];
         $price = $_POST['price'];
         $quantity = $_POST['quantity'];
-        $action = $_POST['action'];
-        $status = $_POST['status'];
-        
+        $roomsBooked = $_POST['roomsBooked'];
+
     
-        $query = "INSERT INTO roomdata VALUES ('$roomType','$price','$quantity','$action','$status')";
+        $query = "INSERT INTO roomdata VALUES ('','$roomType','$price','$quantity','$roomsBooked')";
     
         $data = mysqli_query($conn, $query);
     
